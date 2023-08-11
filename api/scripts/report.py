@@ -6,16 +6,32 @@ from reportlab.lib.styles import getSampleStyleSheet
 import json
 import io
 
-from ..serializers import storeFileInBucket
+from .s3 import storeFileInBucket
 
 
 def upload_pdf_to_s3(balanceSheet, news, report_id):
+    """
+    Generates a PDF report containing balance sheet and news data,
+    and uploads it to an S3 bucket.
+
+    :param balanceSheet: Balance sheet data in JSON format.
+    :param news: News data in JSON format.
+    :param report_id: Unique ID for the report.
+    """
     pdf = generate_pdf(balanceSheet, news, report_id)
     pdf.seek(0)
     storeFileInBucket(pdf, fileKey=f"{report_id}.pdf")
 
 
 def generate_pdf(balanceSheet, news, report_id):
+    """
+    Generates a PDF report with balance sheet and news data.
+
+    :param balanceSheet: Balance sheet data in JSON format.
+    :param news: News data in JSON format.
+    :param report_id: Unique ID for the report.
+    :return: io.BytesIO containing the generated PDF.
+    """
     pdf_buffer = io.BytesIO()
     doc = SimpleDocTemplate(pdf_buffer, pagesize=letter)
     story = []
