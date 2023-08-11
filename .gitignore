@@ -9,6 +9,9 @@ __pycache__/
 # Virtual environment directory
 env/
 
+# database
+db.sqlite3
+
 # Secret key configuration
 secret_key.txt
 
