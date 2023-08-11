@@ -121,3 +121,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Environment data for Alpha Vantage API
+# Note: In a production setup, store this information in a separate configuration file and inject it during CI/CD.
+
+ALPHA_API_KEY = '5RD13LZCAATVM2UP'
+ALPHA_SEARCH_PATH = 'https://www.alphavantage.co/query'
+ALPHA_SEARCH_FUNCTION = 'SYMBOL_SEARCH'
+
+
