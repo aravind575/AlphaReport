@@ -123,6 +123,38 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# Logging configuration;
+# Logs will be written to the specified log file. 
+# You can view the contents of the log file to analyze captured log messages. 
+# Additionally, you can integrate third-party tools or services for log aggregation and monitoring.
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',  # Set the desired log level
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',  # Specify the log file path
+            'formatter': 'verbose',
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+
 # Environment data for Alpha Vantage API
 # Note: In a production setup, store this information in a separate configuration file and inject it during CI/CD.
 

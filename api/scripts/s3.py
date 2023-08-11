@@ -7,6 +7,10 @@ from boto3.session import Config
 from django.conf import settings
 
 
+# init logger
+logger = logging.getLogger(__name__)
+
+
 # Create a session and S3 client with custom configurations
 # Access through IAM
 session = boto3.Session()
@@ -29,7 +33,7 @@ def getPresignedUrl(fileKey, expiration=3600, bucket=None):
                                                             'Key': fileKey},
                                                     ExpiresIn=expiration)
     except ClientError as e:
-        logging.error(e)
+        logger.error(f"Error generating pre-signed URL: {e}")
         return False
 
     return response
@@ -51,7 +55,7 @@ def storeFileInBucket(file, fileKey, bucket=None):
             Key = fileKey
         )
     except ClientError as e:
-        logging.error(e)
+        logger.error(f"Error storing file in S3: {e}")
         return False
     
     return "DONE"

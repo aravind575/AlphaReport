@@ -7,6 +7,11 @@ from django.core.exceptions import BadRequest
 from django.conf import settings
 
 import requests
+import logging
+
+
+# init logger
+logger = logging.getLogger(__name__)
 
 
 class SearchView(APIView):
@@ -18,6 +23,7 @@ class SearchView(APIView):
         query = request.query_params.get('q', None)
 
         if query is None:
+            logger.error('Query parameter "q" is missing.')
             raise BadRequest('Query parameter "q" is missing.')
         
         # Get API configurations from settings
@@ -32,17 +38,22 @@ class SearchView(APIView):
             'apikey': apikey
         }
 
-        # Make a request to the search API
-        response = requests.get(base_url, params=params)
-        
-        # format and return response data if response is successful
-        if response.status_code == 200:
-            result_key = 'bestMatches'
-            formatted_data = self.format_response_data(response.json().get(result_key))
-            return Response({result_key: formatted_data}, status=status.HTTP_200_OK)
-        
-        # Return an error response if the API request fails
-        return Response({'error': 'An error occurred while fetching data.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        try:
+            # Make a request to the search API
+            response = requests.get(base_url, params=params)
+            
+            # Check if the response is successful
+            if response.status_code == 200:
+                result_key = 'bestMatches'
+                formatted_data = self.format_response_data(response.json().get(result_key))
+                return Response({result_key: formatted_data}, status=status.HTTP_200_OK)
+            else:
+                logger.error('Error fetching data from the API.')
+                return Response({'error': 'An error occurred while fetching data.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
+        except Exception as e:
+            logger.error(f'Error while processing API response: {e}')
+            return Response({'error': 'An error occurred while processing the response.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def format_response_data(self, list_of_dicts):
         """

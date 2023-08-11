@@ -5,8 +5,13 @@ from reportlab.lib.styles import getSampleStyleSheet
 
 import json
 import io
+import logging
 
 from .s3 import storeFileInBucket
+
+
+# init logger
+logger = logging.getLogger(__name__)
 
 
 def upload_pdf_to_s3(balanceSheet, news, report_id):
@@ -18,9 +23,13 @@ def upload_pdf_to_s3(balanceSheet, news, report_id):
     :param news: News data in JSON format.
     :param report_id: Unique ID for the report.
     """
-    pdf = generate_pdf(balanceSheet, news, report_id)
-    pdf.seek(0)
-    storeFileInBucket(pdf, fileKey=f"{report_id}.pdf")
+    try:
+        pdf = generate_pdf(balanceSheet, news, report_id)
+        pdf.seek(0)
+        storeFileInBucket(pdf, fileKey=f"{report_id}.pdf")
+        logger.info(f"PDF report {report_id}.pdf uploaded to S3 successfully.")
+    except Exception as e:
+        logger.error(f"Error uploading PDF report {report_id}.pdf to S3: {e}")
 
 
 def generate_pdf(balanceSheet, news, report_id):
