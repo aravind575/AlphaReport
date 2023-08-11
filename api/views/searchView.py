@@ -11,23 +11,20 @@ import requests
 
 class SearchView(APIView):
     permission_classes = [AllowAny]
-
     
     def get(self, request):
         query = request.query_params.get('q', None)
-        print(query)
 
         if query is None:
-            raise BadRequest('Query parameter is missing.')
+            raise BadRequest('Query parameter "q" is missing.')
         
-        base_url = settings.ALPHA_SEARCH_PATH
+        base_url = settings.ALPHA_SEARCH_URL
         function = settings.ALPHA_SEARCH_FUNCTION
-        keywords = query
         apikey = settings.ALPHA_API_KEY
 
         params = {
             'function': function,
-            'keywords': keywords,
+            'keywords': query,
             'apikey': apikey
         }
 
@@ -39,12 +36,11 @@ class SearchView(APIView):
             return Response({result_key: formatted_data}, status=status.HTTP_200_OK)
         
         return Response({'error': 'An error occurred while fetching data.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
 
     def format_response_data(self, list_of_dicts):
         formatted_data = []
         for entry in list_of_dicts:
-            # explicit creation for better performance
+            # explicit creation for better performance, as opposed to dynamically going through the keys
             formatted_entry = {
                 'symbol': entry.get('1. symbol'),
                 'name': entry.get('2. name'),
