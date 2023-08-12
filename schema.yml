@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: AlphaReport Microservice
+  version: 1.0.0
+  description: AlphaReport is a microservice built to consume AlphaVantage APIs and
+    provide functionalities for generating and managing financial reports for various
+    companies. The microservice is developed using Django and hosted on AWS.
+paths:
+  /report/initiate:
+    post:
+      operationId: report_initiate_create
+      tags:
+      - report
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /report/status:
+    get:
+      operationId: report_status_retrieve
+      tags:
+      - report
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /search:
+    get:
+      operationId: search_retrieve
+      tags:
+      - search
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
