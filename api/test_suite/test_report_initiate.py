@@ -8,7 +8,7 @@ from ..views.reportView import report_generation
 class ReportInitiateViewTestCase(APITestCase):
 
     # @patch('api.views.reportView.ReportSerializer')
-    def test_successful_report_initiation(self, db):
+    def test_successful_report_initiation(self):
         """
         Test a successful report initiation request to the view.
         Note: This test case has been kept simple due to time constraints of the project.

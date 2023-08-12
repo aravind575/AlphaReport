@@ -62,6 +62,11 @@ class ReportInitiateView(APIView):
         report = serializer.save()
 
         # Spawn a thread to execute the report generation asynchronously
+        """
+        Using threads for asynchronous tasks can work well for moderate workloads, 
+        but if you expect high traffic and heavy asynchronous processing, 
+        you might want to consider using a more robust asynchronous framework like Celery.
+        """
         if test is not None:
             thread_balance_sheet = threading.Thread(target=report_generation, args=(report.id, company))
             thread_balance_sheet.start()
