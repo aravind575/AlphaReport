@@ -12,12 +12,16 @@ AlphaReport is a microservice built to consume AlphaVantage APIs and provide fun
 
 - Programming Language: Python
 - Framework: Django
-- Database: [Your chosen database]
+- Database: Sqlite3
 - Cloud Hosting: AWS
-- Testing Framework: [Your chosen testing framework]
+- Testing Framework: Pytest
 - Version Control: GitHub
 
 ## Getting Started
+
+Requirements:
+
+Python, Virtualenv/Venv, Docker
 
 Follow these steps to set up and run the AlphaReport microservice locally:
 
@@ -27,7 +31,7 @@ Follow these steps to set up and run the AlphaReport microservice locally:
    git clone https://github.com/aravind575/AlphaReport.git
    cd AlphaReport
 
-2. Build the Docker image:
+2. Build the Docker image (Dockerfile):
 
    ```bash
    docker build -t alpha-report .
@@ -35,7 +39,7 @@ Follow these steps to set up and run the AlphaReport microservice locally:
 3. Run the Docker container:
    
    ```bash
-   docker run -d -p 8000:8000 alpha-report
+   docker run -d -it -p 8000:8000 alpha-report
 
 4. Access the microservice:
    Open your web browser and navigate to http://localhost:8000 to access the AlphaReport microservice.
@@ -44,7 +48,9 @@ Follow these steps to set up and run the AlphaReport microservice locally:
    
 5. Configuration   
    
-   The following environment variables are required for configuring the AlphaReport microservice. You can create a .env file in the project root directory and set these variables:   
+   The following environment variables are required for configuring the AlphaReport microservice. You can create a .env file in the project root directory and set these variables: 
+
+   ```bash  
    DJANGO_SECRET_KEY: Django secret key for security purposes.
    ALPHA_API_KEY: API key for accessing the AlphaVantage APIs.
    ALPHA_SEARCH_URL: URL for the AlphaVantage company search API.
