@@ -26,3 +26,38 @@ Follow these steps to set up and run the AlphaReport microservice locally:
    ```bash
    git clone https://github.com/aravind575/AlphaReport.git
    cd AlphaReport
+
+2. Build the Docker image:
+
+   ```bash
+   docker build -t alpha-report .
+
+3. Run the Docker container:
+   
+   ```bash
+   docker run -d -p 8000:8000 alpha-report
+
+4. Access the microservice:
+   Open your web browser and navigate to http://localhost:8000 to access the AlphaReport microservice.
+   Navigate to http://localhost:8000/api/schema/swagger-ui for documentation
+   
+   
+5. Configuration   
+   
+   The following environment variables are required for configuring the AlphaReport microservice. You can create a .env file in the project root directory and set these variables:   
+   DJANGO_SECRET_KEY: Django secret key for security purposes.
+   ALPHA_API_KEY: API key for accessing the AlphaVantage APIs.
+   ALPHA_SEARCH_URL: URL for the AlphaVantage company search API.
+   ALPHA_SEARCH_FUNCTION: Function name for company search API.
+   ALPHA_BALANCE_SHEET_URL: URL for the AlphaVantage balance sheet API.
+   ALPHA_BALANCE_SHEET_FUNCTION: Function name for balance sheet API.
+   ALPHA_NEWS_URL: URL for the AlphaVantage news API.
+   ALPHA_NEWS_FUNCTION: Function name for news API.
+
+6. Running Tests   
+   
+   Unittests for each view covering multiple cases are written using pytest module, stored in "api/test_suite".
+   To run tests for the AlphaReport microservice, execute the following command:   
+   
+   ```bash
+   pytest
