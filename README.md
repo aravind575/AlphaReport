@@ -65,5 +65,7 @@ Follow these steps to set up and run the AlphaReport microservice locally:
    Unittests for each view covering multiple cases are written using pytest module, stored in "api/test_suite".
    To run tests for the AlphaReport microservice, execute the following command:   
    
+
    ```bash
+   pip install -r requirements.txt
    pytest
