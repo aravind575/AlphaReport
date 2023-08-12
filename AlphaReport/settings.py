@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-sp$$b&va1(u_hiwi60h_$zb7aec)3s$vbei(x_(_0=la=@f2ni
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+CORS_ALLOW_ALL_ORIGINS: True
 
 # Application definition
 
@@ -37,11 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+    'drf_spectacular',
+    'api',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -121,3 +125,62 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# drf-spectacular for openapi documentation
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'AlphaReport Microservice',
+    'DESCRIPTION': 'AlphaReport is a microservice built to consume AlphaVantage APIs and provide functionalities for generating and managing financial reports for various companies. The microservice is developed using Django and hosted on AWS.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': True,
+}
+
+
+# Logging configuration;
+# Logs will be written to the specified log file. 
+# You can view the contents of the log file to analyze captured log messages. 
+# Additionally, you can integrate third-party tools or services for log aggregation and monitoring.
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',  # Set the desired log level
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',  # Specify the log file path
+            'formatter': 'verbose',
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+
+# Environment data for Alpha Vantage API
+# Note: In a production setup, store this information in a separate configuration file and inject it during CI/CD.
+
+ALPHA_API_KEY = '5RD13LZCAATVM2UP'
+ALPHA_URL = 'https://www.alphavantage.co/query'
+ALPHA_SEARCH_FUNCTION = 'SYMBOL_SEARCH'
+ALPHA_BALANCE_SHEET_FUNCTION = 'BALANCE_SHEET'
+ALPHA_NEWS_FUNCTION = 'NEWS'
+
+BUCKET_NAME = 'alpha-reports'
+
+

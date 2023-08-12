@@ -8,3 +8,7 @@ requests==2.31.0
 django-cors-headers==4.2.0
 django-health-check==3.17.0
 drf-spectacular==0.26.4
+reportlab==4.0.4
+boto3==1.28.24
+gunicorn==21.2.0
+pytest-django==4.5.2

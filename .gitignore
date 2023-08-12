@@ -1,1 +1,24 @@
-/env
+# Django .gitignore
+
+# Compiled Python files
+*.pyc
+
+# Python cache directory
+__pycache__/
+
+# Virtual environment directory
+env/
+
+# database
+db.sqlite3
+
+# Secret key configuration
+secret_key.txt
+
+# Debug configuration
+*.log
+
+# IDE-specific directories
+.idea/
+.vscode/
+.DS_Store
