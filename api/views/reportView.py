@@ -67,9 +67,8 @@ class ReportInitiateView(APIView):
         but if you expect high traffic and heavy asynchronous processing, 
         you might want to consider using a more robust asynchronous framework like Celery.
         """
-        if test is not None:
-            thread_balance_sheet = threading.Thread(target=report_generation, args=(report.id, company))
-            thread_balance_sheet.start()
+        thread = threading.Thread(target=report_generation, args=(report.id, company))
+        thread.start()
 
         return Response({
             "request_id": report.id,
@@ -116,9 +115,14 @@ def report_generation(report_id, company):
 
         # Upload the generated PDF (including balance sheet data and news data) report to S3
         upload_pdf_to_s3(balanceSheet, news, report_id)
+
+        Report.objects.filter(id=report_id).update(status='COMPLETED')
+
         logger.info(f"Report generation completed for request_id: {report_id}")
 
     except Exception as e:
+        Report.objects.filter(id=report_id).update(status='FAILED')
+
         logger.error(f"Error generating report for request_id {report_id}: {e}")
 
     return
