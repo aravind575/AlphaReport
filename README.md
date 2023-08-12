@@ -21,7 +21,7 @@ AlphaReport is a microservice built to consume AlphaVantage APIs and provide fun
 
 Requirements:
 
-Python, Virtualenv/Venv, Docker
+Python, Virtualenv/Venv/Anaconda, Docker
 
 Follow these steps to set up and run the AlphaReport microservice locally:
 
