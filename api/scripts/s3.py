@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 # Create a session and S3 client with custom configurations
 # Access through IAM
 session = boto3.Session()
-s3 = session.client("s3",region_name='eu-central-1',config=Config(signature_version="s3v4"))
+s3 = session.client("s3",region_name='eu-north-1',config=Config(signature_version="s3v4"))
 
 
 def getPresignedUrl(fileKey, expiration=3600, bucket=None):
