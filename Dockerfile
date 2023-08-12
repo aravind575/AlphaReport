@@ -36,4 +36,5 @@ EXPOSE 8000
 # RUN chmod a+x /entrypoint.sh
 # ENTRYPOINT ["/entrypoint.sh"]
 
-CMD python manage.py migrate && gunicorn AlphaReport.wsgi:application -w 3 --threads 2 --bind 0.0.0.0:8000
+CMD python manage.py migrate && gunicorn AlphaReport.wsgi:application -w 4 --threads 8 --bind 0.0.0.0:8000
+# CMD python manage.py migrate && python manage.py runserver 0.0.0.0:8000

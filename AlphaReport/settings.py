@@ -160,7 +160,9 @@ LOGGING = {
 # Note: In a production setup, store this information in a separate configuration file and inject it during CI/CD.
 
 ALPHA_API_KEY = '5RD13LZCAATVM2UP'
-ALPHA_SEARCH_URL = 'https://www.alphavantage.co/query'
+ALPHA_URL = 'https://www.alphavantage.co/query'
 ALPHA_SEARCH_FUNCTION = 'SYMBOL_SEARCH'
+ALPHA_BALANCE_SHEET_FUNCTION = 'BALANCE_SHEET'
+ALPHA_NEWS_FUNCTION = 'NEWS'
 
 

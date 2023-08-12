@@ -27,7 +27,7 @@ class SearchView(APIView):
             raise BadRequest('Query parameter "q" is missing.')
         
         # Get API configurations from settings
-        base_url = settings.ALPHA_SEARCH_URL
+        base_url = settings.ALPHA_URL
         function = settings.ALPHA_SEARCH_FUNCTION
         apikey = settings.ALPHA_API_KEY
 

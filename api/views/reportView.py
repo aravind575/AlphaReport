@@ -49,10 +49,12 @@ class ReportInitiateView(APIView):
     def post(self, request):
         # Extract company symbol from query parameters
         company = request.query_params.get('company', None)
+        test = request.query_params.get('test', None)
 
         if company is None:
             logger.error('Company is missing.')
             raise BadRequest('Company is missing.')
+        
         
         # Create an report object with a unique request_id
         serializer = ReportSerializer(data={})
@@ -60,8 +62,9 @@ class ReportInitiateView(APIView):
         report = serializer.save()
 
         # Spawn a thread to execute the report generation asynchronously
-        thread_balance_sheet = threading.Thread(target=report_generation, args=(report.id, company))
-        thread_balance_sheet.start()
+        if test is not None:
+            thread_balance_sheet = threading.Thread(target=report_generation, args=(report.id, company))
+            thread_balance_sheet.start()
 
         return Response({
             "request_id": report.id,
@@ -71,9 +74,8 @@ class ReportInitiateView(APIView):
 def report_generation(report_id, company):
     # Get API configurations from settings
     apikey = settings.ALPHA_API_KEY
-    bs_base_url = settings.ALPHA_BALANCE_SHEET_URL
+    base_url = settings.ALPHA_URL
     bs_function = settings.ALPHA_BALANCE_SHEET_FUNCTION
-    news_base_url = settings.ALPHA_NEWS_URL
     news_function = settings.ALPHA_NEWS_FUNCTION
 
     try:
@@ -85,18 +87,18 @@ def report_generation(report_id, company):
         }
 
         # Make a request to the balance sheet API
-        bs_response = requests.get(bs_base_url, params=bs_params)
+        bs_response = requests.get(base_url, params=bs_params)
         balanceSheet = bs_response.json()
 
         # Set parameters for news API
         news_params = {
             'function': news_function,
-            'symbol': company,
+            'tickers': company,
             'apikey': apikey
         }
 
         # Make a request to the news API
-        news_response = requests.get(news_base_url, params=news_params)
+        news_response = requests.get(base_url, params=news_params)
         news = news_response.json()
 
         # Save balance sheet data to the database
@@ -110,7 +112,7 @@ def report_generation(report_id, company):
         # Upload the generated PDF (including balance sheet data and news data) report to S3
         upload_pdf_to_s3(balanceSheet, news, report_id)
         logger.info(f"Report generation completed for request_id: {report_id}")
-        
+
     except Exception as e:
         logger.error(f"Error generating report for request_id {report_id}: {e}")
 
