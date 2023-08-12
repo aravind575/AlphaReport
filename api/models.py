@@ -10,7 +10,7 @@ class Report(models.Model):
     ]
 
     # Unique identifier for the report
-    id = models.UUIDField(unique=True, primary_key=True, default=uuid.uuid4())
+    id = models.UUIDField(unique=True, primary_key=True, default=uuid.uuid4)
     
     # Status of the report, defaults to 'PENDING'
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='PENDING')
@@ -21,7 +21,7 @@ class Report(models.Model):
 
 class BalanceSheet(models.Model):
     # Unique identifier for the balance sheet
-    id = models.UUIDField(unique=True, primary_key=True, default=uuid.uuid4())
+    id = models.UUIDField(unique=True, primary_key=True, default=uuid.uuid4)
     
     # JSON field to store balance sheet data
     data = JSONField(null=False)
