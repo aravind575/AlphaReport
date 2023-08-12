@@ -21,3 +21,4 @@ secret_key.txt
 # IDE-specific directories
 .idea/
 .vscode/
+.DS_Store

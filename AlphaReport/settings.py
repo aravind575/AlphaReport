@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'api'
 ]
 
 MIDDLEWARE = [
@@ -159,7 +160,7 @@ LOGGING = {
 # Note: In a production setup, store this information in a separate configuration file and inject it during CI/CD.
 
 ALPHA_API_KEY = '5RD13LZCAATVM2UP'
-ALPHA_SEARCH_PATH = 'https://www.alphavantage.co/query'
+ALPHA_SEARCH_URL = 'https://www.alphavantage.co/query'
 ALPHA_SEARCH_FUNCTION = 'SYMBOL_SEARCH'
 
 

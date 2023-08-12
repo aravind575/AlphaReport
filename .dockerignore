@@ -1,0 +1,16 @@
+__pycache__
+*.pyc
+*.pyo
+.git
+.idea
+# Virtual environment directory
+env/
+
+# database
+db.sqlite3
+
+# Secret key configuration
+secret_key.txt
+
+# Debug configuration
+*.log
